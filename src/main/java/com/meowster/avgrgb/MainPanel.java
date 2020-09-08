@@ -1,41 +1,22 @@
 package com.meowster.avgrgb;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
-public class MainPanel extends JPanel {
-    private static final Color BG = new Color(0x112233);
+class MainPanel extends JPanel {
+
+    private final Aperture aperture = new Aperture();
+    private final Info info = new Info();
 
     public MainPanel() {
-
         setLayout(new BorderLayout());
-        setBackground(BG);
-        setBorder(BorderFactory.createLineBorder(BG, 4));
 
-        add(new Square());
+        add(info, BorderLayout.WEST);
+        add(aperture, BorderLayout.CENTER);
     }
 
-
-    private static class Square extends JPanel {
-        private static final Dimension DIM = new Dimension(500, 400);
-
-        @Override
-        public Dimension getMaximumSize() {
-            return DIM;
-        }
-
-        @Override
-        public Dimension getMinimumSize() {
-            return DIM;
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return DIM;
-        }
+    public void setAperture(BufferedImage area) {
+        aperture.setImage(area);
     }
-
 }
