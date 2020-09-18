@@ -16,6 +16,7 @@ public class Color {
     private static final int FF = 0xff;
     private static final int BYTE_LEN = 8;
     private static final int MAX_BYTE = 255;
+    private static final int RGB_MASK = 0xffffff;
 
     /**
      * Totally transparent.
@@ -179,11 +180,21 @@ public class Color {
     }
 
     /**
-     * Returns the color as a hex string of the form {@code "0xAARRGGBB"}.
+     * Returns the color as a hex string of the form {@code "0xRRGGBB"}.
+     * Alpha component is ignored.
      *
      * @return the color as a hex string
      */
     public String hex() {
+        return StringUtils.asHex(raw & RGB_MASK, 6);
+    }
+
+    /**
+     * Returns the color as a hex string of the form {@code "0xAARRGGBB"}.
+     *
+     * @return the color as a hex string
+     */
+    public String hexa() {
         return StringUtils.asHex(raw, 8);
     }
 

@@ -81,6 +81,10 @@ public class StringUtils {
             int numZeros = zeroPad - numDigits;
             h = "0".repeat(numZeros) + h;
         }
-        return OX + h;
+        return h;
+    }
+
+    public static String asHexOx(int val, int zeroPad) {
+        return OX + asHex(val, zeroPad);
     }
 }

@@ -6,6 +6,7 @@
 package com.meowster.avgrgb;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 class Config {
     static final Color APERTURE_BORDER_COLOR = new Color(0x585876);
@@ -26,6 +27,10 @@ class Config {
     static final int PAN_STEP_SMALL = 5;
     static final int PAN_STEP_LARGE = 20;
 
-    static final int INFO_WIDTH = 200;
+    static final int INFO_WIDTH = 100;
     static final int INFO_HEIGHT = VERT;
+
+    static final Dimension PATCH_DIM = new Dimension(50, 50);
+    static final int PATCH_BORDER = 6;
+    static final Color PATCH_BORDER_COLOR = Color.black;
 }

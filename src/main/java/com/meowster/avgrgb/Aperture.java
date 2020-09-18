@@ -12,6 +12,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.meowster.avgrgb.Config.APERTURE_BORDER;
 import static com.meowster.avgrgb.Config.APERTURE_BORDER_COLOR;
@@ -35,7 +37,7 @@ class Aperture extends JPanel {
     private int centerY = APERTURE_SIZE;
 
     private final Screen screen = new Screen();
-    private Info info;
+    private InfoPanel info;
 
     public Aperture() {
         setBorder(createLineBorder(APERTURE_BORDER_COLOR, APERTURE_BORDER));
@@ -97,7 +99,7 @@ class Aperture extends JPanel {
         if (proposed >= PUPIL_MIN && proposed <= PUPIL_MAX) {
             pupilSize = proposed;
         }
-        update();
+        updateState();
     }
 
     private void moveCenter(int dx, int dy, boolean shifted) {
@@ -107,29 +109,50 @@ class Aperture extends JPanel {
         recenterImage(newX, newY);
     }
 
-    private void update() {
-        repaint();
-        if (info != null) {
-            info.update(centerX, centerY, pupilSize);
+    private Color computedAverageColor() {
+        if (image != null) {
+            BufferedImage area = image.getSubimage(irisWidth(), irisWidth(), pupilSize, pupilSize);
+            return Color.averageColor(convertToIntArray(area));
         }
+        return Color.WHITE;
+    }
+
+    private int[] convertToIntArray(BufferedImage im) {
+        int w = im.getWidth();
+        int h = im.getHeight();
+        List<Integer> pixels = new ArrayList<>(w * h);
+
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                pixels.add(im.getRGB(x, y));
+            }
+        }
+        return pixels.stream().mapToInt(i->i).toArray();
     }
 
     // === API ===
 
-    public void setInfo(Info info) {
+    public void setInfoPanel(InfoPanel info) {
         this.info = info;
+    }
+
+    public void updateState() {
+        repaint();
+        if (info != null) {
+            info.updateState(computedAverageColor());
+        }
     }
 
     public void recenterImage(int x, int y) {
         this.image = screen.fetchArea(x, y);
         centerX = x;
         centerY = y;
-        update();
+        updateState();
     }
 
     public void resetPupil() {
         pupilSize = PUPIL_START;
-        update();
+        updateState();
     }
 
     public void contractPupil(boolean shifted) {

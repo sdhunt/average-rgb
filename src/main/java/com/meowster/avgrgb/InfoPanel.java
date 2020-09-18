@@ -13,7 +13,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-class Info extends JPanel {
+class InfoPanel extends JPanel {
     private static final int FONT_SIZE = 12;
     private static final String FONT_NAME = "Monospaced";
     private static final Font LABEL_FONT =
@@ -21,14 +21,17 @@ class Info extends JPanel {
 
     private static final Dimension DIM =
             new Dimension(Config.INFO_WIDTH, Config.INFO_HEIGHT);
-    private static final int PAD = 20;
+    private static final int PAD = 8;
 
     private final JLabel rlab = mkLabel("R");
     private final JLabel glab = mkLabel("G");
     private final JLabel blab = mkLabel("B");
+    private final JLabel rgblab = mkLabel("RGB");
+
+    private Patch patch;
 
 
-    public Info() {
+    public InfoPanel() {
         setBackground(Config.INFO_BG_COLOR);
         setBorder(BorderFactory.createEmptyBorder(PAD, PAD, PAD, PAD));
         setPreferredSize(DIM);
@@ -41,10 +44,18 @@ class Info extends JPanel {
         box.add(rlab);
         box.add(glab);
         box.add(blab);
+        box.add(Box.createVerticalStrut(6));
+        box.add(rgblab);
     }
 
-    public void update(int centerX, int centerY, int pupilSize) {
-
+    public void updateState(Color avColor) {
+        rlab.setText(StringUtils.asHex(avColor.red(), 2));
+        glab.setText(StringUtils.asHex(avColor.green(), 2));
+        blab.setText(StringUtils.asHex(avColor.blue(), 2));
+        rgblab.setText(avColor.hex());
+        if (patch != null) {
+            patch.setBackground(new java.awt.Color(avColor.toInt()));
+        }
     }
 
     static JLabel mkLabel(String tag) {
@@ -53,4 +64,7 @@ class Info extends JPanel {
         return label;
     }
 
+    public void setPatch(Patch patch) {
+        this.patch = patch;
+    }
 }

@@ -11,19 +11,21 @@ import java.awt.Point;
 
 class MainPanel extends JPanel {
 
+    private final Patch patch = new Patch();
+    private final InfoPanel info = new InfoPanel();
     private final Aperture aperture = new Aperture();
-    private final Info info = new Info();
 
     public MainPanel() {
         setLayout(new BorderLayout());
 
-        add(info, BorderLayout.WEST);
-        add(aperture, BorderLayout.CENTER);
-        aperture.setInfo(info);
-    }
+        add(patch, BorderLayout.WEST);
+        add(info, BorderLayout.CENTER);
+        add(aperture, BorderLayout.EAST);
 
-    public String debugString() {
-        return aperture.toString();
+        aperture.setInfoPanel(info);
+        aperture.updateState();
+
+        info.setPatch(patch);
     }
 
     public void resetPupil() {
