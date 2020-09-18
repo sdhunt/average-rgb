@@ -20,6 +20,7 @@ class MainFrame extends JFrame {
         setTitle("Average RGB");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         addKeyListener(new MyKbd());
+        setIconImage(ImageUtils.getIcon(16));
 
         add(mainPanel);
         pack();
