@@ -1,7 +1,6 @@
 package com.meowster.avgrgb;
 
 import java.awt.AWTException;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -18,11 +17,11 @@ class Screen {
         }
     }
 
-    public BufferedImage fetchArea(Point p) {
+    public BufferedImage fetchArea(int mx, int my) {
         int size = Config.APERTURE_SIZE;
         int half = size / 2;
-        int x = p.x - half;
-        int y = p.y - half;
+        int x = mx - half;
+        int y = my - half;
         Rectangle area = new Rectangle(x, y, size, size);
         return bot.createScreenCapture(area);
     }

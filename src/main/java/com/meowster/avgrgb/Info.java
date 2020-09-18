@@ -9,13 +9,13 @@ class Info extends JPanel {
             new Dimension(Config.INFO_WIDTH, Config.INFO_HEIGHT);
 
     public Info() {
-        setBackground(Config.INFO_BG);
+        setBackground(Config.INFO_BG_COLOR);
 
         setPreferredSize(DIM);
         setMinimumSize(DIM);
         setMaximumSize(DIM);
     }
 
-    // TODO: add informational JLabels and lasso controls
+    // TODO: add informational JLabels
 
 }

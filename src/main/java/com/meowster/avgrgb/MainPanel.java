@@ -2,7 +2,7 @@ package com.meowster.avgrgb;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
+import java.awt.Point;
 
 class MainPanel extends JPanel {
 
@@ -16,7 +16,40 @@ class MainPanel extends JPanel {
         add(aperture, BorderLayout.CENTER);
     }
 
-    public void setAperture(BufferedImage area) {
-        aperture.setImage(area);
+    public String debugString() {
+        return aperture.toString();
     }
+
+    public void resetPupil() {
+        aperture.resetPupil();
+    }
+
+    public void contractPupil(boolean shifted) {
+        aperture.contractPupil(shifted);
+    }
+
+    public void dilatePupil(boolean shifted) {
+        aperture.dilatePupil(shifted);
+    }
+
+    public void panUp(boolean shifted) {
+        aperture.panUp(shifted);
+    }
+
+    public void panDown(boolean shifted) {
+        aperture.panDown(shifted);
+    }
+
+    public void panLeft(boolean shifted) {
+        aperture.panLeft(shifted);
+    }
+
+    public void panRight(boolean shifted) {
+        aperture.panRight(shifted);
+    }
+
+    public void setApertureCenteredAt(Point p) {
+        aperture.recenterImage(p.x, p.y);
+    }
+
 }

@@ -6,10 +6,10 @@ import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-class MainFrame extends JFrame {
+import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
+class MainFrame extends JFrame {
     private final MainPanel mainPanel = new MainPanel();
-    private final Screen screen = new Screen();
 
     public MainFrame() {
         setTitle("Average RGB");
@@ -25,22 +25,36 @@ class MainFrame extends JFrame {
         @Override
         public void keyPressed(KeyEvent e) {
             int code = e.getKeyCode();
+            boolean shifted = (e.getModifiersEx() & SHIFT_DOWN_MASK) > 0;
 
             if (code == KeyEvent.VK_SPACE) {
                 Point p = MouseInfo.getPointerInfo().getLocation();
-                mainPanel.setAperture(screen.fetchArea(p));
+                mainPanel.setApertureCenteredAt(p);
 
-                System.out.println("Set Image centered on ("
-                        + p.x + "," + p.y + ")");
+            } else if (code == KeyEvent.VK_EQUALS) {
+                mainPanel.resetPupil();
+
+            } else if (code == KeyEvent.VK_COMMA) {
+                mainPanel.contractPupil(shifted);
+
+            } else if (code == KeyEvent.VK_PERIOD) {
+                mainPanel.dilatePupil(shifted);
+
+            } else if (code == KeyEvent.VK_UP) {
+                mainPanel.panUp(shifted);
+
+            } else if (code == KeyEvent.VK_DOWN) {
+                mainPanel.panDown(shifted);
 
             } else if (code == KeyEvent.VK_LEFT) {
-                System.out.println("Decrease Lasso");
-                // TODO: decrease lasso size
+                mainPanel.panLeft(shifted);
 
             } else if (code == KeyEvent.VK_RIGHT) {
-                System.out.println("Increase Lasso");
-                // TODO: increase lasso size
+                mainPanel.panRight(shifted);
             }
+
+            // let's see some internal data
+//            System.out.println(mainPanel.debugString());
         }
     }
 }
