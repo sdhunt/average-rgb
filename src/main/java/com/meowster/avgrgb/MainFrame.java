@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020. Meowster.com
+ * All Rights Reserved.
+ */
+
 package com.meowster.avgrgb;
 
 import javax.swing.JFrame;
@@ -52,9 +57,6 @@ class MainFrame extends JFrame {
             } else if (code == KeyEvent.VK_RIGHT) {
                 mainPanel.panRight(shifted);
             }
-
-            // let's see some internal data
-//            System.out.println(mainPanel.debugString());
         }
     }
 }

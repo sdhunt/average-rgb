@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020. Meowster.com
+ * All Rights Reserved.
+ */
+
 package com.meowster.avgrgb;
 
 import javax.swing.JPanel;
@@ -14,6 +19,7 @@ class MainPanel extends JPanel {
 
         add(info, BorderLayout.WEST);
         add(aperture, BorderLayout.CENTER);
+        aperture.setInfo(info);
     }
 
     public String debugString() {

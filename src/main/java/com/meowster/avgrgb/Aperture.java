@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020. Meowster.com
+ * All Rights Reserved.
+ */
+
 package com.meowster.avgrgb;
 
 import javax.swing.JPanel;
@@ -26,10 +31,11 @@ import static javax.swing.BorderFactory.createLineBorder;
 class Aperture extends JPanel {
     private int pupilSize = PUPIL_START;
     private BufferedImage image = null;
-    private int centerX = 0;
-    private int centerY = 0;
+    private int centerX = APERTURE_SIZE;
+    private int centerY = APERTURE_SIZE;
 
     private final Screen screen = new Screen();
+    private Info info;
 
     public Aperture() {
         setBorder(createLineBorder(APERTURE_BORDER_COLOR, APERTURE_BORDER));
@@ -44,7 +50,6 @@ class Aperture extends JPanel {
         setMaximumSize(dim);
         setMinimumSize(dim);
         setPreferredSize(dim);
-
     }
 
     @Override
@@ -92,7 +97,7 @@ class Aperture extends JPanel {
         if (proposed >= PUPIL_MIN && proposed <= PUPIL_MAX) {
             pupilSize = proposed;
         }
-        repaint();
+        update();
     }
 
     private void moveCenter(int dx, int dy, boolean shifted) {
@@ -102,19 +107,29 @@ class Aperture extends JPanel {
         recenterImage(newX, newY);
     }
 
+    private void update() {
+        repaint();
+        if (info != null) {
+            info.update(centerX, centerY, pupilSize);
+        }
+    }
 
     // === API ===
+
+    public void setInfo(Info info) {
+        this.info = info;
+    }
 
     public void recenterImage(int x, int y) {
         this.image = screen.fetchArea(x, y);
         centerX = x;
         centerY = y;
-        repaint();
+        update();
     }
 
     public void resetPupil() {
         pupilSize = PUPIL_START;
-        repaint();
+        update();
     }
 
     public void contractPupil(boolean shifted) {

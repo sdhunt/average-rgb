@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020. Meowster.com
+ * All Rights Reserved.
+ */
+
 package com.meowster.avgrgb;
 
 import java.awt.AWTException;
