@@ -6,7 +6,10 @@
 package com.meowster.avgrgb;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 
 class ImageUtils {
     private static final String PATH_PREFIX = "images/rgb-icon-";
@@ -24,5 +27,14 @@ class ImageUtils {
         Image im = ii.getImage();
         System.out.println("Image: " + im);
         return im;
+    }
+
+    public static void centerOnScreen(JFrame frame) {
+        int fw = frame.getWidth();
+        int fh = frame.getHeight();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int centerLeft = (screenSize.width - fw) / 2;
+        int centerTop = (screenSize.height - fh) / 2;
+        frame.setLocation(centerLeft, centerTop);
     }
 }

@@ -10,7 +10,7 @@ package com.meowster.avgrgb;
  *
  * @author Simon Hunt
  */
-public class StringUtils {
+class StringUtils {
     private static final String OX = "0x";
 
     /**
