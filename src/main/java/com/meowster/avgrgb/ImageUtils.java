@@ -5,28 +5,37 @@
 
 package com.meowster.avgrgb;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.io.InputStream;
 
 class ImageUtils {
-    private static final String PATH_PREFIX = "images/rgb-icon-";
+    private static final String PATH_PREFIX = "/images/rgb-icon-";
     private static final String PNG = ".png";
 
-    public static String imagePath(int size) {
+    private static String imagePath(int size) {
         return PATH_PREFIX + size + PNG;
     }
 
     public static Image getIcon(int size) {
         String path = imagePath(size);
-        System.out.println("Icon path: " + path);
-        ImageIcon ii = new ImageIcon(path);
-        System.out.println("ImageIcon: " + ii);
-        Image im = ii.getImage();
-        System.out.println("Image: " + im);
-        return im;
+        InputStream is = ImageUtils.class.getResourceAsStream(path);
+        if (is == null) {
+            System.out.println("Warning: could not locate " + path);
+        } else {
+            try {
+                ImageIcon ii = new ImageIcon(ImageIO.read(is));
+                return ii.getImage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public static void centerOnScreen(JFrame frame) {

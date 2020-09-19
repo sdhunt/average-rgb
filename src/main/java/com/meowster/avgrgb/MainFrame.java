@@ -14,13 +14,15 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
 class MainFrame extends JFrame {
+    private static final int ICON_SIZE = 32;
+
     private final MainPanel mainPanel = new MainPanel();
 
     public MainFrame() {
         setTitle("Average RGB");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         addKeyListener(new MyKbd());
-        setIconImage(ImageUtils.getIcon(16));
+        setIconImage(ImageUtils.getIcon(ICON_SIZE));
 
         add(mainPanel);
         pack();
