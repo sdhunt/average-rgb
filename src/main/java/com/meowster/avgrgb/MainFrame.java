@@ -35,9 +35,12 @@ class MainFrame extends JFrame {
             int code = e.getKeyCode();
             boolean shifted = (e.getModifiersEx() & SHIFT_DOWN_MASK) > 0;
 
-            if (code == KeyEvent.VK_SPACE) {
+            if (code == KeyEvent.VK_ENTER) {
                 Point p = MouseInfo.getPointerInfo().getLocation();
                 mainPanel.setApertureCenteredAt(p);
+
+            } else if (code == KeyEvent.VK_SPACE) {
+                mainPanel.copyToClipboard();
 
             } else if (code == KeyEvent.VK_EQUALS) {
                 mainPanel.resetPupil();

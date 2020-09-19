@@ -60,4 +60,7 @@ class MainPanel extends JPanel {
         aperture.recenterImage(p.x, p.y);
     }
 
+    public void copyToClipboard() {
+        aperture.copyToClipboard();
+    }
 }

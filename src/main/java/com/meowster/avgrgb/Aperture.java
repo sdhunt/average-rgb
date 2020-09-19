@@ -11,6 +11,9 @@ import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +34,14 @@ import static java.awt.AlphaComposite.SRC_OVER;
 import static javax.swing.BorderFactory.createLineBorder;
 
 class Aperture extends JPanel {
-    private int pupilSize = PUPIL_START;
+    private final Clipboard clipboard =
+            Toolkit.getDefaultToolkit().getSystemClipboard();
+
     private BufferedImage image = null;
     private int centerX = APERTURE_SIZE;
     private int centerY = APERTURE_SIZE;
+    private int pupilSize = PUPIL_START;
+    private Color currentColor = Color.WHITE;
 
     private final Screen screen = new Screen();
     private InfoPanel info;
@@ -85,7 +92,7 @@ class Aperture extends JPanel {
         Composite c = AlphaComposite.getInstance(SRC_OVER, IRIS_ALPHA);
         g2.setComposite(c);
         g2.setPaint(IRIS_COLOR);
-        // draw for rectangles: top and bottom, fill in at the sides
+        // draw four rectangles: top and bottom, fill in at the sides
         g2.fillRect(inset, inset, APERTURE_SIZE, iw);
         g2.fillRect(inset, inset + iw + pupilSize, APERTURE_SIZE, iw);
         g2.fillRect(inset, inset + iw, iw, pupilSize);
@@ -127,7 +134,7 @@ class Aperture extends JPanel {
                 pixels.add(im.getRGB(x, y));
             }
         }
-        return pixels.stream().mapToInt(i->i).toArray();
+        return pixels.stream().mapToInt(i -> i).toArray();
     }
 
     // === API ===
@@ -138,8 +145,9 @@ class Aperture extends JPanel {
 
     public void updateState() {
         repaint();
+        currentColor = computedAverageColor();
         if (info != null) {
-            info.updateState(computedAverageColor());
+            info.updateState(currentColor);
         }
     }
 
@@ -179,4 +187,9 @@ class Aperture extends JPanel {
         moveCenter(1, 0, shifted);
     }
 
+    public void copyToClipboard() {
+        System.out.println("Copy to Clipboard: " + currentColor);
+        StringSelection str = new StringSelection(currentColor.hex());
+        clipboard.setContents(str, str);
+    }
 }
