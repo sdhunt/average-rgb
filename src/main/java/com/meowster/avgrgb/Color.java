@@ -11,7 +11,7 @@ package com.meowster.avgrgb;
  *
  * @author Simon Hunt
  */
-public class Color {
+class Color {
 
     private static final int FF = 0xff;
     private static final int BYTE_LEN = 8;
@@ -22,41 +22,6 @@ public class Color {
      * Totally transparent.
      */
     public static final Color TRANSPARENT = new Color(0x0);
-
-    /**
-     * The color black.
-     */
-    public static final Color BLACK = new Color(0xff000000);
-
-    /**
-     * The color red.
-     */
-    public static final Color RED = new Color(0xffff0000);
-
-    /**
-     * The color green.
-     */
-    public static final Color GREEN = new Color(0xff00ff00);
-
-    /**
-     * The color blue.
-     */
-    public static final Color BLUE = new Color(0xff0000ff);
-
-    /**
-     * The color yellow.
-     */
-    public static final Color YELLOW = new Color(0xffffff00);
-
-    /**
-     * The color magenta.
-     */
-    public static final Color MAGENTA = new Color(0xffff00ff);
-
-    /**
-     * The color cyan.
-     */
-    public static final Color CYAN = new Color(0xff00ffff);
 
     /**
      * The color white.
@@ -225,136 +190,6 @@ public class Color {
         return raw;
     }
 
-    /**
-     * Returns the color resulting from shading "this" color by the specified
-     * amount.
-     *
-     * @param amount amount of shading
-     * @return the resulting shaded color
-     */
-    public Color shade(int amount) {
-        return new Color(alpha, red + amount, green + amount, blue + amount);
-    }
-
-    /**
-     * Returns the color resulting from overlaying "this" color with the
-     * specified color.
-     *
-     * @param overlayColor the overlay color
-     * @return the resulting combined color
-     */
-    public Color overlay(Color overlayColor) {
-        final OverlayFilter filter = new OverlayFilter(overlayColor);
-        return new Color(
-                filter.combinedAlpha(alpha),
-                filter.combinedRgb(overlayColor.red, red),
-                filter.combinedRgb(overlayColor.green, green),
-                filter.combinedRgb(overlayColor.blue, blue)
-        );
-    }
-
-    /**
-     * Returns the color resulting from starting with "this" color, and
-     * repeatedly overlaying the given color the specified number of times. Note
-     * that invoking {@link com.meowster.avgrgb.Color#overlay} is equivalent
-     * to invoking this method with a repeat count of 1.
-     *
-     * @param overlayColor the overlay color
-     * @param repeatCount  the repeat count
-     * @return the resulting combined color
-     */
-    public Color overlay(Color overlayColor, int repeatCount) {
-        Color result = this;
-        for (int i = 0; i < repeatCount; i++) {
-            result = result.overlay(overlayColor);
-        }
-        return result;
-    }
-
-    /**
-     * Returns the color resulting from "de-multiplying" this color by its alpha
-     * component.
-     *
-     * @return the alpha-demultiplied color
-     */
-    public Color demultiplyAlpha() {
-        return alpha == 0 ? TRANSPARENT : new Color(
-                alpha,
-                demultAlpha(red),
-                demultAlpha(green),
-                demultAlpha(blue)
-        );
-    }
-
-    private int demultAlpha(int component) {
-        return component * MAX_BYTE / alpha;
-    }
-
-    /**
-     * Returns the color resulting from "this" color multiplied by the specified
-     * color.
-     *
-     * @param multiplier the color by which to multiply
-     * @return the resulting combined color
-     */
-    public Color multiply(Color multiplier) {
-        return new Color(
-                multiply(alpha, multiplier.alpha),
-                multiply(red, multiplier.red),
-                multiply(green, multiplier.green),
-                multiply(blue, multiplier.blue)
-        );
-    }
-
-    /**
-     * Returns the color resulting from "this" color multiplied by the specified
-     * color (but ignoring the multiplier's alpha component).
-     *
-     * @param multiplier the color by which to multiply
-     * @return the resulting combined color
-     */
-    public Color multiplySolid(Color multiplier) {
-        return new Color(
-                alpha,
-                multiply(red, multiplier.red),
-                multiply(green, multiplier.green),
-                multiply(blue, multiplier.blue)
-        );
-    }
-
-    private int multiply(int component, int multComponent) {
-        return component * multComponent / MAX_BYTE;
-    }
-
-    /**
-     * Private helper class to encapsulate overlay filtering behavior.
-     */
-    private static class OverlayFilter {
-
-        private final int opacity;
-        private final int transparency;
-
-        OverlayFilter(Color overlay) {
-            opacity = overlay.alpha();
-            transparency = overlay.transparency();
-        }
-
-        int combinedAlpha(int alpha) {
-            return opacity + showing(alpha) / MAX_BYTE;
-        }
-
-        int combinedRgb(int overlayComponent, int component) {
-            return (occluded(overlayComponent) + showing(component)) / MAX_BYTE;
-        }
-
-        private int showing(int component) {
-            return component * transparency;
-        }
-
-        private int occluded(int component) {
-            return component * opacity;
-        }
-    }
 
     /**
      * Treats the input integers as ARGB color values; computes and returns the

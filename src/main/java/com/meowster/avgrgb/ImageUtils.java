@@ -8,7 +8,7 @@ package com.meowster.avgrgb;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 
-public class ImageUtils {
+class ImageUtils {
     private static final String PATH_PREFIX = "images/rgb-icon-";
     private static final String PNG = ".png";
 
