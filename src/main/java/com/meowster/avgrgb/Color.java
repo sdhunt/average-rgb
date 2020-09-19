@@ -5,6 +5,8 @@
 
 package com.meowster.avgrgb;
 
+import static com.meowster.avgrgb.StringUtils.asHex;
+
 /**
  * Our notion of color, encapsulating the ubiquitous alpha-red-green-blue (ARGB)
  * color model, with 8 bits per component.
@@ -12,7 +14,6 @@ package com.meowster.avgrgb;
  * @author Simon Hunt
  */
 class Color {
-
     private static final int FF = 0xff;
     private static final int BYTE_LEN = 8;
     private static final int MAX_BYTE = 255;
@@ -53,16 +54,6 @@ class Color {
     }
 
     /**
-     * Creates a color instance from the given hex string where the format is:
-     * {@code "0xAARRGGBB"}.
-     *
-     * @param hexString the hex representation of the color
-     */
-    public Color(String hexString) {
-        this((int) StringUtils.hexAsLong(hexString));
-    }
-
-    /**
      * Creates a color instance from the given component values. Note that the
      * values are "clamped" to the range 0 .. 255; that is to say, values less
      * than 0 will be treated as 0, and values more than 255 will be treated as
@@ -91,9 +82,7 @@ class Color {
 
     @Override
     public String toString() {
-        return "Color{"
-                + hex()
-                + '}';
+        return "Color{" + hex() + '}';
     }
 
     /**
@@ -108,8 +97,8 @@ class Color {
 
     /**
      * Returns the transparency. Can be thought of as the opposite of the
-     * "opacity" or {@link #alpha()}. The amount of transparency is from 0 ..
-     * 255.
+     * "opacity" or {@link #alpha()}. The amount of transparency is
+     * from 0 .. 255.
      *
      * @return the transparency
      */
@@ -151,7 +140,7 @@ class Color {
      * @return the color as a hex string
      */
     public String hex() {
-        return StringUtils.asHex(raw & RGB_MASK, 6);
+        return asHex(raw & RGB_MASK, 6);
     }
 
     /**
@@ -160,7 +149,7 @@ class Color {
      * @return the color as a hex string
      */
     public String hexa() {
-        return StringUtils.asHex(raw, 8);
+        return asHex(raw, 8);
     }
 
     /**

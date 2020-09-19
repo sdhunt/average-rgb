@@ -15,6 +15,30 @@ import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
 class MainFrame extends JFrame {
     private static final int ICON_SIZE = 32;
+    private static final String[] HELP = {
+            "------------------------------------------------------",
+            "Enter      - capture image; centered on mouse position",
+            "Arrows     - pan image; up, down, left, right",
+            "              (hold Shift for faster pan)",
+            "< and >    - contract/dilate pupil",
+            "              (hold Shift for bigger steps)",
+            "=          - reset pupil to default size",
+            "Spacebar   - copy current color to clipboard",
+            "/          - print this help text",
+            "a          - about this program",
+            "q          - quit",
+            "------------------------------------------------------",
+    };
+    private static final String[] ABOUT = {
+            "------------------------------------------------------",
+            AverageRGB.version(),
+            "",
+            "Computes the average color of a small patch of pixels",
+            "",
+            "https://github.com/sdhunt/average-rgb",
+            "(c) 2020 Meowster.com",
+            "------------------------------------------------------",
+    };
 
     private final MainPanel mainPanel = new MainPanel();
 
@@ -27,7 +51,25 @@ class MainFrame extends JFrame {
         add(mainPanel);
         pack();
         setResizable(false);
+        printHint();
     }
+
+    private void printHint() {
+        System.out.println("Press '/' key for help");
+    }
+
+    private void printHelp() {
+        for (String s : HELP) {
+            System.out.println(s);
+        }
+    }
+
+    private void printAbout() {
+        for (String s : ABOUT) {
+            System.out.println(s);
+        }
+    }
+
 
     private class MyKbd extends KeyAdapter {
         @Override
@@ -38,9 +80,6 @@ class MainFrame extends JFrame {
             if (code == KeyEvent.VK_ENTER) {
                 Point p = MouseInfo.getPointerInfo().getLocation();
                 mainPanel.setApertureCenteredAt(p);
-
-            } else if (code == KeyEvent.VK_SPACE) {
-                mainPanel.copyToClipboard();
 
             } else if (code == KeyEvent.VK_EQUALS) {
                 mainPanel.resetPupil();
@@ -62,6 +101,19 @@ class MainFrame extends JFrame {
 
             } else if (code == KeyEvent.VK_RIGHT) {
                 mainPanel.panRight(shifted);
+
+            } else if (code == KeyEvent.VK_SPACE) {
+                mainPanel.copyToClipboard();
+
+            } else if (code == KeyEvent.VK_SLASH) {
+                printHelp();
+
+            } else if (code == KeyEvent.VK_A) {
+                printAbout();
+
+            } else if (code == KeyEvent.VK_Q) {
+                System.exit(0);
+
             }
         }
     }

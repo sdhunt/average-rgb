@@ -10,13 +10,15 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 
 class MainPanel extends JPanel {
-
-    private final Patch patch = new Patch();
-    private final InfoPanel info = new InfoPanel();
     private final Aperture aperture = new Aperture();
 
     public MainPanel() {
         setLayout(new BorderLayout());
+
+        Patch patch = new Patch();
+        InfoPanel info = new InfoPanel();
+
+        info.setPatch(patch);
 
         add(patch, BorderLayout.WEST);
         add(info, BorderLayout.CENTER);
@@ -24,8 +26,6 @@ class MainPanel extends JPanel {
 
         aperture.setInfoPanel(info);
         aperture.updateState();
-
-        info.setPatch(patch);
     }
 
     public void resetPupil() {

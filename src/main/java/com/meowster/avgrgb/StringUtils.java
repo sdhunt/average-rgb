@@ -31,44 +31,6 @@ class StringUtils {
     }
 
     /**
-     * Returns the integer value represented by the given hex string. Leading
-     * {@code "0x"} is stripped if present.
-     * <pre>
-     *     long a1 = Utils.hex("0x0a");
-     *     long a2 = Utils.hex("0a");
-     * </pre>
-     *
-     * @param s the hex string to evaluate
-     * @return the integer value
-     * @throws NumberFormatException if input is not valid
-     */
-    public static int hex(String s) {
-        String h = s.startsWith("0x") ? s.substring(2) : s;
-        return Integer.parseInt(h, 16);
-    }
-
-    /**
-     * Returns a hex string representation of the given long value.
-     *
-     * @param val the value
-     * @return a string representing the value in hex
-     */
-    public static String asHex(long val) {
-        String h = Long.toHexString(val);
-        return OX + h;
-    }
-
-    /**
-     * Returns a hex string representation of the given int value.
-     *
-     * @param val the value
-     * @return a string representing the value in hex
-     */
-    public static String asHex(int val) {
-        return asHex(val, 0);
-    }
-
-    /**
      * Returns a hex string representation of the given int value.
      *
      * @param val the value
@@ -82,9 +44,5 @@ class StringUtils {
             h = "0".repeat(numZeros) + h;
         }
         return h;
-    }
-
-    public static String asHexOx(int val, int zeroPad) {
-        return OX + asHex(val, zeroPad);
     }
 }

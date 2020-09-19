@@ -48,6 +48,7 @@ class Aperture extends JPanel {
 
     public Aperture() {
         setBorder(createLineBorder(APERTURE_BORDER_COLOR, APERTURE_BORDER));
+        setBackground(java.awt.Color.WHITE);
         configureSize();
     }
 
@@ -188,7 +189,7 @@ class Aperture extends JPanel {
     }
 
     public void copyToClipboard() {
-        System.out.println("Copy to Clipboard: " + currentColor);
+        System.out.println("Copied to Clipboard: " + currentColor);
         StringSelection str = new StringSelection(currentColor.hex());
         clipboard.setContents(str, str);
     }
